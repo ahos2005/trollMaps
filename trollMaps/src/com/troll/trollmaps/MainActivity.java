@@ -1,6 +1,7 @@
 package com.troll.trollmaps;
 
-
+import java.util.ArrayList;
+import org.w3c.dom.Document;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -31,7 +33,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends FragmentActivity implements
         GooglePlayServicesClient.ConnectionCallbacks,
@@ -63,6 +65,9 @@ public class MainActivity extends FragmentActivity implements
     
     protected LocationManager locationManager;
     private Criteria myCriteria;
+    
+    GMapDirection mapDirections;
+    LatLng warrenLatLng;
     
     @SuppressLint("NewApi")
 	@Override
@@ -100,6 +105,8 @@ public class MainActivity extends FragmentActivity implements
         myCriteria.setAccuracy(Criteria.ACCURACY_FINE);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(0L,0.0f, myCriteria, this, null);
+        
+        mapDirections = new GMapDirection();
     }
     
     @SuppressLint("NewApi")
@@ -125,7 +132,8 @@ public class MainActivity extends FragmentActivity implements
 
 	        //CREATE THE MARKERS WITH THE APPROPRIATE IMAGES
 			LatLng ucsdLatLng = new LatLng(32.881271, -117.2389000);//879271,2289000
-			LatLng warrenLatLng = new LatLng(32.880966, -117.234450);
+			//LatLng 
+			warrenLatLng = new LatLng(32.880966, -117.234450);
 			LatLng centerLatLng = new LatLng(32.878053, -117.237218);
 			LatLng socialScienceLatLng = new LatLng(32.883822, -117.240748);
 			LatLng SOMLatLng = new LatLng(32.875852, -117.237578);
@@ -423,7 +431,22 @@ public class MainActivity extends FragmentActivity implements
         Toast.makeText(this, "Location Updated", Toast.LENGTH_SHORT).show();	
         // In the UI, set the latitude and longitude to the value received
     	mCurrentLocation = location;
-    	
+		Document doc = mapDirections.getDocument(new LatLng(location.getLatitude(), location.getLongitude())
+		, warrenLatLng, GMapDirection.MODE_WALKING);
+//		int duration = mapDirections.getDurationValue(doc);
+//		String distance = mapDirections.getDistanceText(doc);
+//		String start_address = mapDirections.getStartAddress(doc);
+//		String copy_right = mapDirections.getCopyRights(doc);
+//		ArrayList<LatLng> directionPoint = mapDirections.getDirection(doc);
+//		PolylineOptions rectLine = new PolylineOptions().width(3).color(Color.RED);
+//		for(int i=0, _i=directionPoint.size();i<_i;++i)
+//		{
+//			rectLine.add(directionPoint.get(i));
+//		}
+//		map.clear();
+//		map.addMarker(new MarkerOptions().position(warrenLatLng)
+//		        .title("Warren"));
+//		map.addPolyline(rectLine);
     	CameraPosition cameraPosition = new CameraPosition.Builder()
     			.target(new LatLng(location.getLatitude(), location.getLongitude())) // Sets the center of the map to
     	        .zoom(currentMapZoom)                   // Sets the zoom

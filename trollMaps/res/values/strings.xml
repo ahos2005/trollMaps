@@ -24,6 +24,7 @@
     <string name="address">Address:</string>
 
     <!-- Messages -->
+    <string name="desc"> TrollLoco</string>
     <string name="connected">Client connected</string>
     <string name="connection_error_code_unknown">Unknown connection error code:  %1$d</string>
     <string name="connection_failed">Connection failed</string>

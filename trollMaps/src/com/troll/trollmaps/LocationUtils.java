@@ -19,8 +19,6 @@ package com.troll.trollmaps;
 import android.content.Context;
 import android.location.Location;
 
-import com.troll.trollmaps.R;
-
 /**
  * Defines app-wide constants and utilities
  */
